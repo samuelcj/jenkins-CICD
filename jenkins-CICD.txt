@@ -1,0 +1,3 @@
+Jenkins is one of the major DevOps tools that helps us with build automation including in making our CI-CD process seamless.
+It helps us run test, build artifacts, publish artifacts, deploy artifacts,send notifications and many other workflows we do.
+
