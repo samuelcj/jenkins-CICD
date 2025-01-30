@@ -1,3 +1,44 @@
 Jenkins is one of the major DevOps tools that helps us with build automation including in making our CI-CD process seamless.
 It helps us run test, build artifacts, publish artifacts, deploy artifacts,send notifications and many other workflows we do.
 
+1. INSTALLING JENKINS:
+OPTION 1: We can install jenkins directly on a dedicated server eg Amazon EC2. After which we create the jenkins user on the server.
+OPTION 2: We run jenkins as a docker container. This is faster and easier.
+
+2. Launch an EC2 instance that would be used to deploy the Jenkins docker image. Remember to open the port 8080 (for Jenkins server)
+- ssh into the instance: ssh -i <key-pair> ec2-user@<public IP>
+
+3. run the jenkins container command: docker run -p 8080:8080 -p 50000:50000 -d -v jenkins_data:/var/jenkins_home jenkins/jenkins:lts
+where:
+- -p 8080:8080  => for accessing jenkins UI
+- -p 50000:50000  => Where Jenkins worker and master node communicate and run
+- -v jenkins_data:/var/jenkins_home  => creating docker named volume for data persistency 
+
+4. Access inside the container to obtain the jenkins ui password from: /var/jenkins_home/secrets/initialAdminPassword
+
+# docker exec -it <container ID> /bin/sh
+
+5. After login, install all jenkins plugins and create my first admin user.
+
+
+JENKINS JOBS
+1. Automating Java Maven App workflow i.e to run test and build the jar file for the app.
+For this, we need maven (mvn) to be available.
+#This was done using Method 1: Installing the maven package from the Jenkins UI system configuration.
+
+2. Automating NodeJS App workflow i.e to run test, package and push to repository.
+For this, we need npm to be available
+# This was done using the Method 2: Installing the NodeJS and NPM packages using the command line.
+    We would do this by going into the container as a root user:
+    # docker exec -u 0 -it <container ID> bash      => to login to container as root.
+    # cat /etc/issue                                => to know our container environment type in order to use the proper codes.
+    # apt update                                    => mine is a debian environment
+    # apt install curl                              => to install curl if it doesn't already exist.
+    # curl -sL https://deb.nodesource.com/setup_10.x -o nodesource_setup.sh     => to download the script for installing node and npm.
+    # bash nodesource_setup.sh                      => to execute the script.
+    # nodejs -v  and npm -v                         => to vonfirm their installation.
+3. If you want a plugin like nodejs that does not exist to appear, you go to plugins and check the available lists and install it.
+    It will now appear as a tool and you can then add it to your plugin list to be used in jobs.
+
+CONFIGURE GIT REPOSITORY
+To add a git repository, just configure the job and add a git repo with proper credentials.
