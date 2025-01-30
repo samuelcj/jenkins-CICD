@@ -41,4 +41,8 @@ For this, we need npm to be available
     It will now appear as a tool and you can then add it to your plugin list to be used in jobs.
 
 CONFIGURE GIT REPOSITORY
-To add a git repository, just configure the job and add a git repo with proper credentials.
+# To add a git repository, just configure the job and add a git repo with proper credentials.
+# The builds for the jobs are found the the jobs directory of the /var/jenkins_home folder.
+# The checkeout git repo is then found in the jobs directory of the workspace folder in the /var/jenkins_home of the container 
+# Then we can invoke actions or build from the git repo by configuring it on the jenkins ui.
+    - Remember to specify the proper path and also the right permission for the Jenkins user.
