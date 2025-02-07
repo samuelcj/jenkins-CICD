@@ -125,4 +125,4 @@ docker build -t 172.22.159.46:8083/app-repo:java-maven-app_2.0 ./java-maven-app/
 echo $PASSWORD | docker login -u $USERNAME --password-stdin 172.22.159.46:8083
 docker push 172.22.159.46:8083/app-repo:java-maven-app_2.0
 
-THIS WORKS WELL !!!!
+THIS WORKS WELL !!!
