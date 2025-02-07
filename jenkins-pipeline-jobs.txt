@@ -1,0 +1,7 @@
+JENKINS PIPELINE JOBS
+In this kind of job, we use scripts (jenkinsfile) written in groovy language to configure all the build parts and steps.
+The best practice is for the script to be together with our application codes in our source code manager (SCM), eg github.
+
+1. Using the SCM Pipeline Jobs for Jenkins
+-- We need to set up the git repository with credentials
+-- Remember to set the right path of the jenkinsfile in the space provided for the script path.
