@@ -75,4 +75,7 @@ Now to build our java maven app as a docker image, we create a docker file that 
     docker build -t <image name>:<image version> ./<path to your docker file>
     # eg:  docker build -t java-maven-app:1.0 ./java-maven-app/
 
+AWESOMEEEEE... THIS WORKS. ON TO THE NEXT STEP !!!!
+
+
 
