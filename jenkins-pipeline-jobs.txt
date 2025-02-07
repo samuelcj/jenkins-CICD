@@ -12,3 +12,21 @@ This can eitheir be written as a scriped or declerative pipeline. I will be usin
 ** pipeline: must be at the top level
 ** agent: where to execute the build. Most times it is "agent any"
 ** stages: where you have all your stages that contains the "steps" that execute the scripts you ant to run on the jenkins server.
+** post: Optionally used to execute a logic after all the stages are done. It comes with some condition utilities like:
+    always: a logic that runs eitheir all the stages are successful or not. eg sending mails for each build status
+    success: if the build is successful
+    failure: if the build fails
+*** when espressions: These are conditions that are found inside of stages to determine when that stage runs.
+** environment: for setting environment varriables.
+** tools: This provides us with build tools for the project. Jenkins by default supports: maven, gradle and jdk.
+** parameters: some external configurations that would be needed in the project. Can be used together with when expression.
+
+ENVIRONMENTAL VARRIABLES IN JENKINS FILE
+1. Jenkins have some in-built environment varriables and can be found at:
+    <jenkins-url>/env-vars.html         => http://172.22.159.46:8080/env-vars.html
+2. You can also set your own environment using the encironment utility in the groovy script.
+
+CREDENTIALS IN JENKINSFILE.
+They are usually set in the Jenkins GUI, but are called inside the environment block.but called with credentials. eg:
+    SERVER_CREDENTIALS = credentials('<credential key>')
+NB: You'll need the credentials plugin installed for this to work. Its called the "Credentials Binding"
