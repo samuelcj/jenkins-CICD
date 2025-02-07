@@ -110,3 +110,18 @@ docker push samuelcj310/java-maven-app:java-maven-app_2.0
 
 THIS WORKS WELL !!!!
 
+
+PUSH IMAGE TO EXTERNAL REPOSITORY (eg Nexus, Amazon ECR, etc)
+
+We would still configue the right credentials for the repository, then modify our shell command to look like this. 
+
+FOR NEXUS:
+docker build -t <repository name>:<image name or tag> <docker file direcory>
+echo $PASSWORD | docker login -u $USERNAME --password-stdin  <repository host or url>    
+docker push <repository name>:<image name or tag>
+
+FOR EXAMPLE:
+docker build -t 172.22.159.46:8083/app-repo:java-maven-app_2.0 ./java-maven-app/
+echo $PASSWORD | docker login -u $USERNAME --password-stdin 172.22.159.46:8083
+docker push 172.22.159.46:8083/app-repo:java-maven-app_2.0
+
