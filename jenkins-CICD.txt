@@ -67,3 +67,5 @@ Now we can execute docker commands in any of our builds in jenkins.
 
  
 
+BUILD DOCKER IMAGE
+Now to build our java maven app as a docker image, we create a docker file that will help run that from our jenkins.
