@@ -78,4 +78,35 @@ Now to build our java maven app as a docker image, we create a docker file that 
 AWESOMEEEEE... THIS WORKS. ON TO THE NEXT STEP !!!!
 
 
+PUSH IMAGE TO DOCKER HUB
+1. Create a DockeHub account (this gives one private repository for free)
+2. Create a repository or use an existing repository
+3. Configure credentials in Jenkins
+4. Configure the Build Job to push image to the Docker hub repository
+NB: To push an image to a dockerhub repository, is for us to tag the image with the repository name.
+Hence, the shell command configured in jenkins would be like this:
+
+docker build -t <dockerhub repository name>:<image verion tag>
+docker push <dockerhub repository name>:<image verion tag>
+
+for example: 
+docker build -t samuelcj310/java-maven-app:java-maven-app_1.0              #NB: the samuel is my username and java-maven-app here is my repo name for this image.
+docker push samuelcj310/java-maven-app:java-maven-app_1.0
+
+## We also need to activate the Docker Hub login credentials, to enable the push. And we do this using the "USe Secret text or file" utility in Jenkins.
+This allows us bind our credentials to the jenkins build session. Use Separated credentials and specify them.
+
+So the command we need to have in the execute shell session becomes:
+
+docker build -t samuelcj310/java-maven-app:java-maven-app_1.0 ./java-maven-app/         # ./java/maven-app/ is the location of my Dockerfile from my cloneed github repo.
+docker login -u $USERNAME -p $PASSWORD              # No need to specify the repository, since DockerHup is the default repository 
+docker push samuelcj310/java-maven-app:java-maven-app_1.0
+
+NB: The above works but it is not secure as the password is captured unencrypted. But we can pass it as a standard input using:
+
+docker build -t samuelcj310/java-maven-app:java-maven-app_2.0 ./java-maven-app/
+echo $PASSWORD | docker login -u $USERNAME --password-stdin             # To pass in our password as a standard input for better security. 
+docker push samuelcj310/java-maven-app:java-maven-app_2.0
+
+THIS WORKS WELL !!!!
 
