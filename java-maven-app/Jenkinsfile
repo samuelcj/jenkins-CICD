@@ -1,31 +1,26 @@
+def gv      # so the groovy function can be grobalally availaible in all my stages.
+
 pipeline {
     agent any
     stages {
-        stage("stage") {
-            steps {
-                script {
-                    echo "staging the application..."
-                }
-            }
-        }
         stage("build") {
             steps {
                 script {
-                    echo "building the application"
+                    gv.buildApp()
                 }
             }
         }
         stage("test") {
             steps {
                 script {
-                    echo "testing the application ..."
+                    gv.testApp()
                 }
             }
         }
         stage("deploy") {
             steps {
                 script {
-                    echo "deploying the application..."
+                    gv.deployApp()
                 }
             }
         }

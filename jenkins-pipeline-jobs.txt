@@ -20,6 +20,8 @@ This can eitheir be written as a scriped or declerative pipeline. I will be usin
 ** environment: for setting environment varriables.
 ** tools: This provides us with build tools for the project. Jenkins by default supports: maven, gradle and jdk.
 ** parameters: some external configurations that would be needed in the project. Can be used together with when expression.
+script: a functionality inside of steps in stages, that helps reduce complexity by defining the scripts to run in another groovy script. called script.groovy.
+
 
 ENVIRONMENTAL VARRIABLES IN JENKINS FILE
 1. Jenkins have some in-built environment varriables and can be found at:
@@ -30,3 +32,9 @@ CREDENTIALS IN JENKINSFILE.
 They are usually set in the Jenkins GUI, but are called inside the environment block.but called with credentials. eg:
     SERVER_CREDENTIALS = credentials('<credential key>')
 NB: You'll need the credentials plugin installed for this to work. Its called the "Credentials Binding"
+
+USING GROOVY SCRIPTS
+This is used to reduce the weight and complexity of our jenkins file by having the script session of our stages outside the jenkins file.
+This enables easy updating and also flexibility of the jenkins file. This script i usually called script.groovy.
+
+
