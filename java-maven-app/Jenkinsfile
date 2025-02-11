@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     gv.buildApp()
-                    sh "mvn ./java-maven-app/ package"
+                    sh "mvn -f ./java-maven-app/pom.xml package"
                 }
             }
         }
