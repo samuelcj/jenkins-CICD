@@ -1,4 +1,4 @@
-def gv      # so the groovy function can be grobalally availaible in all my stages.
+def gv
 
 pipeline {
     agent any
