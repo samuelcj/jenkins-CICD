@@ -4,7 +4,6 @@ def buildApp() {
 
 def testApp() {
     echo "building the docker image..."
-    }
 } 
 
 def deployApp() {
