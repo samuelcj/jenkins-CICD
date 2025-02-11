@@ -16,12 +16,13 @@ This can eitheir be written as a scriped or declerative pipeline. I will be usin
     always: a logic that runs eitheir all the stages are successful or not. eg sending mails for each build status
     success: if the build is successful
     failure: if the build fails
-*** when espressions: These are conditions that are found inside of stages to determine when that stage runs.
+*** when expressions: These are conditions that are found inside of stages to determine when that stage runs.
 ** environment: for setting environment varriables.
 ** tools: This provides us with build tools for the project. Jenkins by default supports: maven, gradle and jdk.
 ** parameters: some external configurations that would be needed in the project. Can be used together with when expression.
 script: a functionality inside of steps in stages, that helps reduce complexity by defining the scripts to run in another groovy script. called script.groovy.
 ** input: Use to take in parameters for a particular stage.
+*** withCredentials: used to call the values of the credentials stored in Jenkins.
 
 ENVIRONMENTAL VARRIABLES IN JENKINS FILE
 1. Jenkins have some in-built environment varriables and can be found at:
