@@ -9,7 +9,8 @@ pipeline {
                     gv = load "script.groovy"
                 }
             }
-        }stage("build") {
+        }
+        stage("build") {
             steps {
                 script {
                     gv.buildApp()
