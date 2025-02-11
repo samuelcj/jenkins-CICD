@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     gv.buildApp()
-                    sh "mvn -f ./java-maven-app/pom.xml package"
+                    sh "mvn ./java-maven-app/ package"
                 }
             }
         }
@@ -33,10 +33,10 @@ pipeline {
                 script {
                     echo "Deploying to ${Environment}"
                     gv.testApp()
-                    withCredentials([usernamePassword(credentialsId: "DockerHub", passwordVariable: "PASSWORD", usernameVariable: "USERNAME")]){
-                        sh "docker build -t samuelcj310/java-maven-app:java-maven-app_2.0 ./java-maven-app/"
+                    withCredentials([usernamePassword(credentialsId: "DockerHub", passwordVariable: "DOCKER_PASSWORD", usernameVariable: "DOCKER_USERNAME")]) {
+                        sh "docker build -t samuelcj310/java-maven-app:java-maven-app_3.0 ./java-maven-app/"
                         sh "echo $PASSWORD | docker login -u $USERNAME --password-stdin"
-                        sh "docker push samuelcj310/java-maven-app:java-maven-app_2.0"
+                        sh "docker push samuelcj310/java-maven-app:java-maven-app_3.0"
                     }
                 }
             }
