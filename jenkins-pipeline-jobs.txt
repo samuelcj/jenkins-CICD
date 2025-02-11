@@ -38,4 +38,5 @@ USING GROOVY SCRIPTS
 This is used to reduce the weight and complexity of our jenkins file by having the script session of our stages outside the jenkins file.
 This enables easy updating and also flexibility of the jenkins file. This script i usually called script.groovy.
 
-
+MULTI-BRANCH PIPELINE JOBS
+This gives usthe leverage to use one job in managing multiple pipelines with ease and more efficiently.
