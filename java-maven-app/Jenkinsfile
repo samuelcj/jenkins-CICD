@@ -34,9 +34,9 @@ pipeline {
                     echo "Deploying to ${Environment}"
                     gv.testApp()
                     withCredentials([usernamePassword(credentialsId: "DockerHub", passwordVariable: "PASSWORD", usernameVariable: "USERNAME")]) {
-                        sh "sudo docker build -t samuelcj310/java-maven-app:java-maven-app_3.0 ./java-maven-app/"
-                        sh "sudo echo $PASSWORD | docker login -u $USERNAME --password-stdin"
-                        sh "sudo docker push samuelcj310/java-maven-app:java-maven-app_3.0"
+                        sh "docker build -t samuelcj310/java-maven-app:java-maven-app_3.0 ./java-maven-app/"
+                        sh "echo $PASSWORD | docker login -u $USERNAME --password-stdin"
+                        sh "docker push samuelcj310/java-maven-app:java-maven-app_3.0"
                     }
                 }
             }
