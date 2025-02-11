@@ -37,6 +37,7 @@ pipeline {
                 script {
                     env.ENV = nput message: "Select the evironment for the deployment", ok: "Done", parameters: [choice(name: "ENV", choices: ["dev", "prod"], description: "Selecting Environment")]
                     gv.deployApp()
+                    echo "The Environment has been set to ${ENV}"
                 }
             }
         }
