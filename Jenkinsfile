@@ -1,0 +1,45 @@
+def gv
+
+pipeline {
+    agent any
+    tools {
+        maven "maven-3.9.9"
+    }
+    stages {
+        stage("init") {
+            steps {
+                script {
+                    gv = load "script.groovy"
+                }
+            }
+        }
+        stage("build") {
+            steps {
+                script {
+                    gv.buildApp()
+                }
+            }
+        }
+        stage("test") {
+            input {
+                message "Select the evironment for the deployment"
+                ok "Done"
+                parameters {
+                    choice(name: "Environment", choices: ["dev", "prod"], description: "Selecting Environment")
+                }
+            }
+            steps {
+                script {
+                    gv.testApp()
+                }
+            }
+        }
+        stage("deploy") {
+            steps {
+                script {
+                    gv.deployApp()
+                }
+            }
+        }
+    }   
+}
