@@ -21,7 +21,7 @@ This can eitheir be written as a scriped or declerative pipeline. I will be usin
 ** tools: This provides us with build tools for the project. Jenkins by default supports: maven, gradle and jdk.
 ** parameters: some external configurations that would be needed in the project. Can be used together with when expression.
 script: a functionality inside of steps in stages, that helps reduce complexity by defining the scripts to run in another groovy script. called script.groovy.
-
+** input: Use to take in parameters for a particular stage.
 
 ENVIRONMENTAL VARRIABLES IN JENKINS FILE
 1. Jenkins have some in-built environment varriables and can be found at:
