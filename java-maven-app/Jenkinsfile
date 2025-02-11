@@ -3,7 +3,13 @@ def gv
 pipeline {
     agent any
     stages {
-        stage("build") {
+        stage("init") {
+            steps {
+                script {
+                    gv = load "script.groovy"
+                }
+            }
+        }stage("build") {
             steps {
                 script {
                     gv.buildApp()
