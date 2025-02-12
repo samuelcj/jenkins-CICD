@@ -49,3 +49,11 @@ The Jenkns credentials have two scopes: The Global and System scopes
 2. Global Credentials: This is available everywhere and can be used by the Jenkins server and jobs.
 3. Credential Scope: The credentials here are found in the multi-pipeline jobs and are limited to just our projects
 
+
+JENKINS SHARED LIBRARY
+This is an extension to multi-branch pipelines that has it own repository, written in groovy but contains the logic that is to be shared by multiple pipelines/projects/repository.
+It will have a function that will be referenced in all the Jenkins file of each project sharing the same logic. Usually used for microservices
+
+** To make it globally available for all our projects, we set it from the Jenkins configuration under the "Global Pipeline Libraries".
+** A groovy project was created from intelliJ for the jenkins-shared-library, which was also made a repository.
+
