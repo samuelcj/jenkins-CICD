@@ -40,6 +40,12 @@ This enables easy updating and also flexibility of the jenkins file. This script
 
 MULTI-BRANCH PIPELINE JOBS
 This gives usthe leverage to use one job in managing multiple pipelines with ease and more efficiently.
-It also gives us opportunity to use some logic in our Jenkinsfile as conditions as to what branch runs or not. eg using the when expression capabilities.
+It also gives us opportunity to use some logic in our Jenkinsfile eg. conditions as to what stage is executed based on the branch eg using the when expression capabilities.
 
+
+JENKINS CREDENTIALS
+The Jenkns credentials have two scopes: The Global and System scopes
+1. System scope: This is only available on Jenkins Server and are not visible or accessible by Jenkins jobs.
+2. Global Credentials: This is available everywhere and can be used by the Jenkins server and jobs.
+3. Credential Scope: The credentials here are found in the multi-pipeline jobs and are limited to just our projects
 
