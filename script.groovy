@@ -7,7 +7,8 @@ def buildApp() {
     echo "Building the application"
     sh "mvn package"
     echo "Deploying to ${Environment}"
-    echo "building the docker image..."
+    echo "Building the docker image..."
+    echo "Executing pipeline for branch $BRANCH_NAME"
 } 
 
 def deployApp() {
