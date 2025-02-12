@@ -13,16 +13,16 @@ pipeline {
                 }
             }
         }
-        stage("build") {
+        stage("test") {
             steps {
                 script {
-                    gv.buildApp()
+                    gv.testApp()
                 }
             }
         }
-        stage("test") {
+        stage("build") {
             input {
-                message "Select the evironment for the deployment"
+                message "Select the evironment for this build"
                 ok "Done"
                 parameters {
                     choice(name: "Environment", choices: ["dev", "prod"], description: "Selecting Environment")
@@ -30,7 +30,7 @@ pipeline {
             }
             steps {
                 script {
-                    gv.testApp()
+                    gv.buildApp()
                 }
             }
         }

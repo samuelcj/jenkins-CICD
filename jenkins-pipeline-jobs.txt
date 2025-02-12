@@ -40,3 +40,6 @@ This enables easy updating and also flexibility of the jenkins file. This script
 
 MULTI-BRANCH PIPELINE JOBS
 This gives usthe leverage to use one job in managing multiple pipelines with ease and more efficiently.
+It also gives us opportunity to use some logic in our Jenkinsfile as conditions as to what branch runs or not. eg using the when expression capabilities.
+
+
