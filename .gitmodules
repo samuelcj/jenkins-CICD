@@ -1,0 +1,3 @@
+[submodule "jenkins-shared-library"]
+        path = jenkins-shared-library
+        url = git@github.com:samuelcj/jenkins-shared-library.git
