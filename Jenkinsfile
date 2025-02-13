@@ -1,5 +1,6 @@
 #!/usr/bin/env groovy
 
+// This is the Jenkinsfile utilizing the script.groovy definition for script light-weight.
 def gv
 
 pipeline {

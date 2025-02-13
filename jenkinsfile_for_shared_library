@@ -1,6 +1,7 @@
 #!/usr/bin/env groovy
 // This is the jenkins file for the shared library.
 
+@Library("jenkins-shared-library")
 def gv
 
 pipeline {
@@ -19,7 +20,7 @@ pipeline {
         stage("test") {
             steps {
                 script {
-                    gv.testApp()
+                    gv.testApp()            // Using script.groovy function
                 }
             }
         }
@@ -33,7 +34,7 @@ pipeline {
             }
             steps {
                 script {
-                    gv.buildApp()
+                    buildApp()          // Using shared library function
                 }
             }
         }
@@ -45,7 +46,7 @@ pipeline {
             }
             steps {
                 script {
-                    gv.deployApp()
+                    deployApp()             // Using shared library function
                 }
             }
         }
