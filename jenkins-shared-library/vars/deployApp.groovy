@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-def call(String DockerRepo ImageTag) {
+def call(String DockerRepo, String ImageTag) {
     env.ENV = input message: "Select the evironment for the deployment", ok: "Done", parameters: [choice(name: "ENV", choices: ["dev", "prod"], description: "Selecting Environment")]
     echo "The  Deployment Environment has been set to ${ENV}"
     echo "Deploying the application..."
