@@ -46,7 +46,7 @@ pipeline {
             }
             steps {
                 script {
-                    deployApp()             // Using shared library function
+                    deployApp "samuelcj310/java-maven-app","java-maven-app_4.0"             // Using shared library function
                 }
             }
         }
