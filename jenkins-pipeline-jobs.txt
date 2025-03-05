@@ -62,3 +62,14 @@ To enable the Library in the Jenkinsfile, we need to specify it using the syntax
     eg: @Library("jenkins-shared-library")
 
 Then we can call the functions in the shared library using the name of the files inside the script section of the steps in the jenkins file.
+
+
+AUTOMATICALLY TRIGGERING JENKINS BUILD
+Builds can be triggered manually, automatically or using schedules.
+Below are the steps for automatic triggers:
+1. From Jenkins, install the plugin for build triggers, usually a plugin for the SCM tool youre using eg github, gitlab, bitbucket, etc.
+2. Configure the SCM (github or gitlab) plugin in your system configuration to point to your SCM (I a currently utilizing github)
+3. During the process, create an API token as credentials for the connection between Jenkins and the SCM.
+    NB: In github it is gotten from personal token from developer options in the profile settings.
+    Then in jenkins, this api token generated from github is referenced as secret text.
+
