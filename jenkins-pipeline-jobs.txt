@@ -57,7 +57,7 @@ It will have a function that will be referenced in all the Jenkins file of each 
 ** To make it globally available for all our projects, we set it from the Jenkins configuration under the "Global Trusted Pipeline Libraries", inside the system configuration.
 ** A groovy project was created from intelliJ for the jenkins-shared-library, which was also made a repository, to use in setting it up in Jenkin.
 
-To enable the Library in the Jenkinsfile, we need to specify it using the syntax:
+To enable the Library in the Jenkinsfile, we need to specify it using the syntax: 
     @Library("<global library name")
     eg: @Library("jenkins-shared-library")
 
