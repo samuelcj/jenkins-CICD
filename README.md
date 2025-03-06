@@ -69,7 +69,7 @@ Jenkins is an open-source automation server that enables developers to build, te
    -v /var/run/docker.sock:/var/run/docker.sock \
    -v $(which docker):/usr/bin/docker jenkins/jenkins:lts
    ```
-2. Allow Jenkins to execute Docker commands:
+2. Allow Jenkins to execute Docker commands: (This should always be done when the jenkins container is restarted.)
    ```sh
    docker exec -u 0 -it <container ID> bash
    chmod 666 /var/run/docker.sock
