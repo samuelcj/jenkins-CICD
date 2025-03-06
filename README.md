@@ -1,4 +1,4 @@
-# Jenkins CICD Project
+# Jenkins CI/CD Project
 
 Jenkins is an open-source automation server that enables developers to build, test, and deploy software efficiently and reliably. It serves as a critical component in the DevOps pipeline, offering integration and automation capabilities for a wide variety of tools and technologies.
 
@@ -9,66 +9,159 @@ Jenkins is an open-source automation server that enables developers to build, te
 - **Flexibility**: Compatible with numerous platforms and environments, from local setups to cloud infrastructure.
 - **CI/CD Support**: Facilitates Continuous Integration (CI) and Continuous Delivery/Deployment (CD), ensuring faster and more reliable software releases.
 
-## Basic Concepts in Jenkins
+## Installing Jenkins
+### Option 1: Installing on a Dedicated Server (Amazon EC2)
+1. Launch an EC2 instance and create a Jenkins user.
+2. Install Jenkins manually by following [official documentation](https://www.jenkins.io/doc/book/installing/).
 
-### 1. **Jobs/Pipelines**
-   - **Jobs**: The fundamental units of work in Jenkins, representing a set of tasks such as building or testing a project.
-   - **Pipelines**: A more advanced way to define workflows, written as code using the Jenkins Pipeline DSL. Pipelines are stored in version control and provide greater control and visibility.
+### Option 2: Running Jenkins as a Docker Container (Recommended)
+1. Launch an EC2 instance and ensure port `8080` is open.
+2. SSH into the instance:  
+   ```sh
+   ssh -i <key-pair> ec2-user@<public IP>
+   ```
+3. Run the Jenkins container:
+   ```sh
+   docker run -p 8080:8080 -p 50000:50000 -d -v jenkins_data:/var/jenkins_home jenkins/jenkins:lts
+   ```
+   - `-p 8080:8080` → Access Jenkins UI.
+   - `-p 50000:50000` → Communication between master and worker nodes.
+   - `-v jenkins_data:/var/jenkins_home` → Data persistence.
 
-### 2. **Nodes**
-   - **Master Node**: The central controller that manages tasks, configurations, and user interactions.
-   - **Agent Nodes**: Machines that execute jobs as directed by the master node, enabling distributed builds.
+4. Retrieve the initial admin password:
+   ```sh
+   docker exec -it <container ID> cat /var/jenkins_home/secrets/initialAdminPassword
+   ```
+5. Install plugins and create the first admin user after logging in.
 
-### 3. **Plugins**
-   - Extend Jenkins’ functionality to integrate with tools such as Git, Docker, Kubernetes, and more.
+## Jenkins Jobs
+### Automating Java Maven App Workflow
+1. Install Maven via Jenkins UI system configuration.
+2. Configure Jenkins to run tests and build the `.jar` file.
 
-### 4. **Build Triggers**
-   - Mechanisms to start jobs, such as code commits, scheduled timings, or webhook events.
+### Automating Node.js App Workflow
+1. Install Node.js and NPM manually inside the Jenkins container:
+   ```sh
+   docker exec -u 0 -it <container ID> bash
+   apt update && apt install -y curl
+   curl -sL https://deb.nodesource.com/setup_10.x | bash -
+   apt install -y nodejs
+   ```
+2. Verify installation:
+   ```sh
+   node -v && npm -v
+   ```
+3. Add necessary plugins from Jenkins plugin manager.
 
-### 5. **Artifacts**
-   - Files produced as output of a build process, such as compiled code, test results, or logs.
+## Configuring Git Repository
+- Configure jobs to pull from a Git repository.
+- Ensure the correct permissions and credentials for the Jenkins user.
 
-## Solutions Jenkins Provides
-1. **Continuous Integration (CI)**
-   - Automatically build and test code whenever changes are pushed to a repository.
-   - Detect integration issues early to maintain code quality.
+## Running Tests and Building Java Maven Applications
+1. Configure Jenkins to checkout code from a repository.
+2. Ensure the `pom.xml` file path is set correctly.
 
-2. **Continuous Delivery (CD)**
-   - Automate the deployment of applications to staging or production environments.
-   - Ensure faster and consistent delivery cycles.
+## Running Docker in Jenkins
+1. Run Jenkins with Docker socket access:
+   ```sh
+   docker run -p 8080:8080 -p 50000:50000 -d \
+   -v jenkins_data:/var/jenkins_home \
+   -v /var/run/docker.sock:/var/run/docker.sock \
+   -v $(which docker):/usr/bin/docker jenkins/jenkins:lts
+   ```
+2. Allow Jenkins to execute Docker commands:
+   ```sh
+   docker exec -u 0 -it <container ID> bash
+   chmod 666 /var/run/docker.sock
+   ```
 
-3. **Infrastructure as Code (IaC)**
-   - Integrate with tools like Ansible, Terraform, and Kubernetes to manage infrastructure using code.
+## Building and Pushing Docker Images
+### Building Docker Images
+- Add a shell script build step:
+  ```sh
+  docker build -t <image name>:<image version> ./<path-to-dockerfile>
+  ```
 
-4. **Testing Automation**
-   - Run automated tests across different environments to validate functionality and performance.
+### Pushing Images to Docker Hub
+1. Create a Docker Hub account and configure Jenkins credentials.
+2. Modify the build script:
+   ```sh
+   docker build -t <dockerhub-repo>:<tag> ./
+   echo $PASSWORD | docker login -u $USERNAME --password-stdin
+   docker push <dockerhub-repo>:<tag>
+   ```
 
-5. **Monitoring and Reporting**
-   - Generate reports on build stability, test results, and other metrics for improved insights and decision-making.
+### Pushing Images to External Repositories (e.g., Nexus, Amazon ECR)
+1. Configure credentials in Jenkins.
+2. Modify the build script:
+   ```sh
+   docker build -t <repository>:<tag> ./
+   echo $PASSWORD | docker login -u $USERNAME --password-stdin <repository-host>
+   docker push <repository>:<tag>
+   ```
 
-## Getting Started with Jenkins
+## Jenkins Pipeline Jobs
+### Creating a Jenkinsfile
+Jenkinsfiles use Groovy syntax and should be stored in the project repository.
+#### Example Declarative Pipeline:
+```groovy
+pipeline {
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sh 'docker build -t my-app:1.0 .'
+                sh 'docker push my-app:1.0'
+            }
+        }
+    }
+}
+```
 
-1. **Install Jenkins**
-   - [Official Installation Guide](https://www.jenkins.io/doc/book/installing/)
+### Multi-Branch Pipelines
+- Supports branching strategies and automatic job creation per branch.
+- Enables dynamic pipeline execution based on branch logic.
 
-2. **Set Up a Job**
-   - Navigate to Jenkins Dashboard > New Item > Select Job Type > Configure > Save.
+## Credentials in Jenkins
+1. **System Scope**: Available only on the Jenkins server.
+2. **Global Scope**: Accessible to all jobs.
+3. **Credential Binding Plugin**: Used to securely reference credentials in pipelines.
 
-3. **Configure a Pipeline**
-   - Use the Pipeline syntax to define your CI/CD process.
+## Shared Libraries
+- Shared Groovy libraries help centralize and reuse pipeline logic across projects.
+- Configure under `Global Trusted Pipeline Libraries` in Jenkins settings.
+- Example usage:
+  ```groovy
+  @Library('jenkins-shared-library') _
+  mySharedLibraryFunction()
+  ```
 
-4. **Add Plugins**
-   - Go to Jenkins Dashboard > Manage Jenkins > Manage Plugins > Install Required Plugins.
+## Automatically Triggering Jenkins Builds
+1. Install the required build trigger plugin (e.g., GitHub, GitLab).
+2. Configure the SCM plugin in Jenkins system settings.
+3. Generate an API token from GitHub (Personal Access Token).
+4. Use the **Webhook URL** in your repository settings to trigger builds.
 
 ## Community and Support
-- **Documentation**: [Jenkins Documentation](https://www.jenkins.io/doc/)
+- **Documentation**: [Jenkins Docs](https://www.jenkins.io/doc/)
 - **Plugins Index**: [Jenkins Plugins](https://plugins.jenkins.io/)
 - **Community Forum**: [Jenkins Community](https://community.jenkins.io/)
 - **GitHub Repository**: [Jenkins GitHub](https://github.com/jenkinsci)
 
-## License
-Jenkins is licensed under the MIT License. See the [LICENSE](https://www.jenkins.io/project/jenkins-license/) for more information.
+### Summary
+This guide covers the setup and automation of Jenkins using Docker, CI/CD workflows for Java and NodeJS applications, pipeline jobs, credentials management, shared libraries, and automated build triggers. Happy DevOps-ing!
 
 ---
-This project README serves as an introduction to Jenkins, its capabilities, and how to get started.
 
+## License
+Jenkins is licensed under the MIT License. See the [LICENSE](https://www.jenkins.io/project/jenkins-license/) for more information.
